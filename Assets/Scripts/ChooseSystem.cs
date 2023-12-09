@@ -22,6 +22,7 @@ public class ChooseSystem : MonoBehaviour
 
     private void OnParentVideoEnd(VideoPlayer source)
     {
+        parentVideoPlayer.loopPointReached -= OnParentVideoEnd;
         EnableChoiceButtons();
     }
 
@@ -32,7 +33,7 @@ public class ChooseSystem : MonoBehaviour
         {
             Button choiceButton = Instantiate(buttonPrefab, buttonsParent);
             choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = "Go Back";
-            choiceButton.onClick.AddListener(() => GoBack(firstVideo));
+            choiceButton.onClick.AddListener(() => NextVideo(firstVideo));
             choiceButtons.Add(choiceButton);
         }
         for (int i = 0; i < parentVideoPlayer.transform.childCount; i++)
@@ -59,19 +60,6 @@ public class ChooseSystem : MonoBehaviour
         }
         choiceButtons.Clear();
         parentVideoPlayer.loopPointReached += OnParentVideoEnd;
-        parentVideoPlayer.enabled = true;
-        parentVideoPlayer.Play();
-    }
-    private void GoBack(VideoPlayer nextVideo)
-    {
-        parentVideoPlayer.Stop();
-        parentVideoPlayer.enabled = false;
-        parentVideoPlayer = nextVideo;
-        for (int i = 0; i < choiceButtons.Count; i++)
-        {
-            Destroy(choiceButtons[i].gameObject);
-        }
-        choiceButtons.Clear();
         parentVideoPlayer.enabled = true;
         parentVideoPlayer.Play();
     }
