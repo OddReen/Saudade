@@ -17,9 +17,15 @@ public class ChooseSystem : MonoBehaviour
     {
         firstVideo = parentVideoPlayer;
         parentVideoPlayer.Play();
-        parentVideoPlayer.loopPointReached += OnParentVideoEnd;
+        parentVideoPlayer.loopPointReached += OnParentVideoEnd;//replace with the line after
+        //StartCourotine(OnTimerEnableChoices());
     }
-
+    //IEnumerator OnTimerEnableChoices()
+    //{
+        //float timeToButton = parentVideoPlayer.GetComponent<VideoScript>();
+        //yield return new WaitForSeconds(timeToButton);
+        //EnableChoiceButtons();
+    //}
     private void OnParentVideoEnd(VideoPlayer source)
     {
         parentVideoPlayer.loopPointReached -= OnParentVideoEnd;
@@ -59,7 +65,8 @@ public class ChooseSystem : MonoBehaviour
             Destroy(choiceButtons[i].gameObject);
         }
         choiceButtons.Clear();
-        parentVideoPlayer.loopPointReached += OnParentVideoEnd;
+        parentVideoPlayer.loopPointReached += OnParentVideoEnd;//replace with the line after
+        //StartCourotine(OnTimerEnableChoices());
         parentVideoPlayer.enabled = true;
         parentVideoPlayer.Play();
     }
