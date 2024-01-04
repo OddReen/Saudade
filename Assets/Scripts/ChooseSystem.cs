@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -17,20 +18,20 @@ public class ChooseSystem : MonoBehaviour
     {
         firstVideo = parentVideoPlayer;
         parentVideoPlayer.Play();
-        parentVideoPlayer.loopPointReached += OnParentVideoEnd;//replace with the line after
-        //StartCourotine(OnTimerEnableChoices());
-    }
-    //IEnumerator OnTimerEnableChoices()
-    //{
-        //float timeToButton = parentVideoPlayer.GetComponent<VideoScript>();
-        //yield return new WaitForSeconds(timeToButton);
-        //EnableChoiceButtons();
-    //}
-    private void OnParentVideoEnd(VideoPlayer source)
-    {
-        parentVideoPlayer.loopPointReached -= OnParentVideoEnd;
-        EnableChoiceButtons();
-    }
+        //parentVideoPlayer.loopPointReached += OnParentVideoEnd;
+        StartCoroutine(OnTimerEnableChoices());
+	}
+	IEnumerator OnTimerEnableChoices()
+	{
+		float timeToButton = parentVideoPlayer.GetComponent<VideoScript>().TimeToChoices;
+		yield return new WaitForSeconds(timeToButton);
+		EnableChoiceButtons();
+	}
+	//private void OnParentVideoEnd(VideoPlayer source)
+ //   {
+ //       parentVideoPlayer.loopPointReached -= OnParentVideoEnd;
+ //       EnableChoiceButtons();
+ //   }
 
     private void EnableChoiceButtons()
     {
@@ -65,8 +66,8 @@ public class ChooseSystem : MonoBehaviour
             Destroy(choiceButtons[i].gameObject);
         }
         choiceButtons.Clear();
-        parentVideoPlayer.loopPointReached += OnParentVideoEnd;//replace with the line after
-        //StartCourotine(OnTimerEnableChoices());
+        //parentVideoPlayer.loopPointReached += OnParentVideoEnd;//replace with the line after
+        StartCoroutine(OnTimerEnableChoices());
         parentVideoPlayer.enabled = true;
         parentVideoPlayer.Play();
     }
